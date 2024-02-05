@@ -20,20 +20,6 @@ router.get('/:name', function(req, res, next) {
 });
 
 
-router.get('/instock/:qt', function(req, res, next) {
-    const qt = parseInt(req.params.qt);
-    var inStockProducts = [];
-    
-    const productList = Object.entries(products)
-    productList.map((product)=>{
-        if (product[1].stock >= qt )  {
-            inStockProducts.push(product[1])
-        }
-    })
-    res.json(inStockProducts)
-});
-
-
 
 router.get('/:name/:qt', function(req, res, next) {
     const product = products[req.params.name];
@@ -49,6 +35,24 @@ router.get('/:name/:qt', function(req, res, next) {
     } else {
       res.status(404).json({ error: 'Product not found' });
     }
+});
+
+
+router.get('/instock/:qt', function(req, res, next) {
+    const qt = parseInt(req.params.qt);
+    var inStockProducts = [];
+    if (qt === 0 ) {
+        res.json("Qte  is null ")
+    } else {
+        const productList = Object.entries(products)
+        productList.map((product)=>{
+        if (product[1].stock >= qt )  {
+            inStockProducts.push(product[1])
+        }
+        })
+    res.json(inStockProducts)
+    }
+    
 });
 
 
